@@ -1,4 +1,4 @@
-﻿namespace TgBot
+namespace TgBot
 {
     public struct Config
     {
