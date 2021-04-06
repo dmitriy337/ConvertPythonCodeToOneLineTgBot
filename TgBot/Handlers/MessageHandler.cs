@@ -27,7 +27,7 @@ namespace TgBot.Handlers
                 }
                 else
                 {
-                    await botClient.SendTextMessageAsync(messageEventArgs.Message.Chat.Id, "Send me your file");
+                    await botClient.SendTextMessageAsync(messageEventArgs.Message.Chat.Id, @"Send me your python file!");
                 }
             }
 

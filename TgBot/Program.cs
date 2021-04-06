@@ -1,5 +1,5 @@
 ﻿using System;
-using System.IO;
+using System.Threading;
 using System.Collections.Generic;
 using Telegram.Bot;
 
@@ -30,7 +30,7 @@ namespace TgBot
 
             botClient.StartReceiving();
             Console.WriteLine("Press enter to stop it!");
-            Console.ReadLine();
+            Thread.Sleep(Timeout.Infinite);
         }
     }
 }
