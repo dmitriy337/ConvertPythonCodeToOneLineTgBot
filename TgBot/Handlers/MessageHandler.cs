@@ -18,7 +18,7 @@ namespace TgBot.Handlers
         private Services.WorkWithDocuments workWithDocuments = new Services.WorkWithDocuments();
         private Services.ConvertToOneLine ConvertToOneLine = new Services.ConvertToOneLine();
 
-        public void Handler(object sender, MessageEventArgs messageEventArgs) {
+        public async void Handler(object sender, MessageEventArgs messageEventArgs) {
             if (messageEventArgs.Message.Text != null) {
 
                 if (messageEventArgs.Message.Text.StartsWith('/'))
@@ -27,7 +27,7 @@ namespace TgBot.Handlers
                 }
                 else
                 {
-                    botClient.SendTextMessageAsync(messageEventArgs.Message.Chat.Id, "Send me your file");
+                    await botClient.SendTextMessageAsync(messageEventArgs.Message.Chat.Id, "Send me your file");
                 }
             }
 
@@ -35,30 +35,37 @@ namespace TgBot.Handlers
             {
                 if (messageEventArgs.Message.Document.FileName.EndsWith(".py"))
                 {
-                    string StringFromFile = workWithDocuments.DowloadFile(messageEventArgs);
-                    string StringFromFileConverteredToOneLine = ConvertToOneLine.ConvertToSingleLine(StringFromFile);
+                    try
+                    {
+                        string StringFromFile = workWithDocuments.DowloadFile(messageEventArgs);
+                        string StringFromFileConverteredToOneLine = ConvertToOneLine.ConvertToSingleLine(StringFromFile);
 
-                    var UploadedFile = workWithDocuments.UploadStringAsFile(StringFromFileConverteredToOneLine, "OneLine_" + messageEventArgs.Message.Document.FileName);
-
-
-
-                    //TODO Send document and catch exceptions
-                    botClient.SendDocumentAsync(messageEventArgs.Message.Chat.Id,
-                        UploadedFile
-                        );
+                        var UploadedFileName = workWithDocuments.UploadStringAsFile(StringFromFileConverteredToOneLine, "OneLine_" + messageEventArgs.Message.Document.FileName);
 
 
-                    new Task(() => dbHelper.LogDocument(messageEventArgs, UploadedFile.FileName)).Start();
+                        using (var stream = System.IO.File.OpenRead(Directory.GetCurrentDirectory() + "/ConverteredFiles/" + UploadedFileName))
+                        {
+                            InputOnlineFile fileToSend = new InputOnlineFile(stream);
+                            fileToSend.FileName = "OneLine_" + messageEventArgs.Message.Document.FileName;
+                            var r = await botClient.SendDocumentAsync(messageEventArgs.Message.Chat.Id,
+                                fileToSend
+                                );
+                        }
+
+                        new Task(() => dbHelper.LogDocument(messageEventArgs, UploadedFileName)).Start();
+                    }
+                    catch
+                    {
+                        await botClient.SendTextMessageAsync(messageEventArgs.Message.Chat.Id, "Something wrong!");
+                    }
                 }
                 else
                 {
-                    botClient.SendTextMessageAsync(messageEventArgs.Message.Chat.Id,
+                    await botClient.SendTextMessageAsync(messageEventArgs.Message.Chat.Id,
                         "It is *not* .py file.\nSend my *.py* file!",
                         parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
                 }
             }
-
-            //"OneLine_" + messageEventArgs.Message.Document.FileName
 
 
 

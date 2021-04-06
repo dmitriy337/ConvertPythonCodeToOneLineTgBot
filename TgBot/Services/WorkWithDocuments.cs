@@ -40,9 +40,8 @@ namespace TgBot.Services
             return result;
         }
 
-        public InputOnlineFile UploadStringAsFile(string str, string DocumentName)
+        public string UploadStringAsFile(string str, string DocumentName)
         {
-            InputOnlineFile inputOnlineFile;
             string g = Guid.NewGuid().ToString();
 
             //CreateFileAndDirectory
@@ -59,14 +58,9 @@ namespace TgBot.Services
                 sr.Flush();
             }
 
-            //UploadFile
-            using (var stream = System.IO.File.Open(DirectoryToDownload + g + ".py", FileMode.Open))
-            {
-                inputOnlineFile = new InputOnlineFile(stream);
-                inputOnlineFile.FileName = g + ".py";    
-            }
+            
 
-            return inputOnlineFile;
+            return ( g + ".py");
         }
     }
 }
