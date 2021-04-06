@@ -20,19 +20,23 @@ namespace TgBot.Handlers
         {
             switch (messageEventArgs.Message.Text.ToLower())
             {
+                case ("/help"):
                 case ("/start"): { 
                         botClient.SendTextMessageAsync(messageEventArgs.Message.Chat.Id,
                             "Hello, i'm the bot that converts your python code to oneline)\nMy GitRepos: [ConvertPythonCodeToOneLine](https://github.com/dmitriy337/ConvertPythonCodeToOneLineTgBot)",
                             disableWebPagePreview: true,
                             parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
-                        if (dbHelper.CheckUserRegister(messageEventArgs)!=true)
-                        {
-                            dbHelper.RegisterUser(messageEventArgs);
-                        }
+                        Task.Delay(5).Wait();
+
+                        botClient.SendTextMessageAsync(messageEventArgs.Message.Chat.Id,
+                            "Send me your *.py* file❗",
+                            disableWebPagePreview: true,
+                            parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                        if (dbHelper.CheckUserRegister(messageEventArgs)!=true) {dbHelper.RegisterUser(messageEventArgs);}
                         break;}
 
                 default: {
-                        botClient.SendTextMessageAsync( messageEventArgs.Message.Chat.Id, "Unknown command");
+                        botClient.SendTextMessageAsync( messageEventArgs.Message.Chat.Id, "Unknown command❗");
                         break;}
                     
             }

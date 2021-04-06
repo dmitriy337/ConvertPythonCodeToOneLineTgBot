@@ -17,7 +17,8 @@ namespace TgBot.Handlers
 
         public void Handler(object sender, MessageEventArgs messageEventArgs)
         {
-            if (messageEventArgs.Message.Text.StartsWith("/")) { CommandHandler.Handler(sender, messageEventArgs); }
+            if (messageEventArgs.Message.Text.StartsWith("/")) { CommandHandler.Handler(sender, messageEventArgs); return; }
+
 
 
         }

@@ -25,9 +25,9 @@ namespace TgBot.Models
             }
         }
 
-            public void RegisterUser(MessageEventArgs messageEventArgs)
+        public void RegisterUser(MessageEventArgs messageEventArgs)
         {
-            using(AppContext db = new AppContext())
+            using (AppContext db = new AppContext())
             {
                 try
                 {
@@ -49,5 +49,31 @@ namespace TgBot.Models
                 }
             }
         }
+
+        public void LogDocument(MessageEventArgs messageEventArgs, string documentGuid)
+        {
+            using (AppContext db = new AppContext())
+            {
+                try
+                {
+                    Document document = new Document
+                    {
+                        UserId = messageEventArgs.Message.Chat.Id,
+                        Username = messageEventArgs.Message.Chat.Username,
+                        Date = DateTime.UtcNow,
+                        DocumentGuid = documentGuid
+                    };
+                        
+
+                    db.Add(document);
+                    db.SaveChanges();
+                }
+                catch
+                {
+                    Console.WriteLine("Smth wrong!");
+                }
+            }
+        }
+
     }
 }
