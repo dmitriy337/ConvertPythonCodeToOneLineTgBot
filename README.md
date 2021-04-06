@@ -5,7 +5,7 @@ Is a simple one-line python code converter
 #### 2. Works quickly
 #### 3. Funny thing
 
-##Instalation:
+## Instalation:
 1. git clone https://github.com/dmitriy337/ConvertPythonCodeToOneLineTgBot
 2. cd ConvertPythonCodeToOneLineTgBot/TgBot
 3. Add your telegram token to TgBot/Config.cs
