@@ -4,7 +4,8 @@ pipeline {
     stage('Set up config') {
       steps {
         sh '''cd TgBot
-rm Config.cs'''
+rm TgBot/Config.cs
+ls'''
         sh '''cd TgBot
 echo "namespace TgBot {public struct Config { public static string TelegramToken = \\"1724781462:AAHi7SmnfQmPQKAtxWKjghwDFbSlJ53qeeQ\\"; public static string ConnectionTobString = \\"Host=localhost;Port=5432;Database=postgres;Username=postgres;Password=1234\\"; }}" > Config.cs'''
       }
