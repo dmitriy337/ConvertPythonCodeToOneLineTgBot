@@ -7,7 +7,7 @@ pipeline {
 rm Config.cs
 ls'''
         sh '''cd TgBot
-echo "namespace TgBot {public struct Config { public static string TelegramToken = \\"1724781462:AAHi7SmnfQmPQKAtxWKjghwDFbSlJ53qeeQ\\"; public static string ConnectionTobString = \\"Host=localhost;Port=5432;Database=postgres;Username=postgres;Password=1234\\"; }}" > Config.cs'''
+echo "namespace TgBot {public struct Config { public static string TelegramToken = \\"1724781462:AAF4ufN5h4Yo0dSmgyY6qn893gF4SU7zVIE\\"; public static string ConnectionTobString = \\"Host=localhost;Port=5432;Database=postgres;Username=postgres;Password=1234\\"; }}" > Config.cs'''
       }
     }
 
